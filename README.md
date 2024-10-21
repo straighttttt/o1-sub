@@ -1,54 +1,96 @@
-# Agent-0: Replicating O1's Chain of Thought Reasoning
+# Agent-0: 多代理链式推理系统
 
-**[Watch the Video Overview](https://youtu.be/Oasl9rSJNds)**  
-For a detailed walkthrough of how this project works and what to expect, check out the video linked above.
+## 项目描述
 
-## Project Description
+Agent-0是一个概念验证项目，旨在模拟OpenAI的O1模型的推理能力。该系统使用顺序代理方法，通过链式思考和反思技术来提出和迭代改进编码相关问题的解决方案。
 
-This project is a **proof of concept** that aims to replicate the reasoning capabilities of OpenAI's newly released O1 model. O1 uses chain-of-thought prompting and reinforcement learning to reflect on its solutions, improving responses through iterative reasoning. Our goal is to mimic this behavior using alternative models.
+本项目使用OpenAI API（推荐GPT-4模型）来驱动代理系统。每个代理都有特定的角色和目标，共同协作以产生高质量的解决方案。
 
-In this implementation, we use a sequential agent-based system powered by the Gemini API (or any model with function-calling capabilities). The system proposes solutions to coding-related problems and iteratively refines them using chain-of-thought and reflection techniques at each stage. The Gemini API, with its code execution abilities, is ideal for this project. While it works with Gemini Flash, we recommend using the Pro version to avoid issues with external package dependencies, as the Pro version generally sticks to Python's standard library.
+## 主要特点
 
-## Important Note
+- 多代理系统：使用4个专门的代理进行顺序处理
+- 链式思考：每个代理使用详细的推理步骤
+- 迭代改进：代理们相互建立在彼此的解决方案之上
+- OpenAI API集成：利用强大的语言模型能力
+- 灵活的问题解决：适用于各种编码相关查询
 
-This is a **very early version** and was created as a **weekend hack**, so expect it to fail in various scenarios. It currently works best for problems that can be solved through coding. We encourage you to give it a try and **report any bugs or issues** you encounter.
+## 安装
 
-## How to Run
+1. 克隆仓库：
+   ```
+   git clone https://github.com/your-username/agent-0.git
+   cd agent-0
+   ```
 
-### 1. Set Environment Variable
+2. 创建并激活虚拟环境（推荐使用conda）：
+   ```
+   conda create -n agent-0 python=3.10
+   conda activate agent-0
+   ```
 
-You need to set an environment variable for your Google API key:
-```bash
-export GOOGLE_API_KEY=<your_api_key>
-```
+3. 安装依赖：
+   ```
+   pip install openai
+   ```
 
-### 2. Run the Script
+## 使用方法
 
-```bash
-python main.py
-```
+1. 设置环境变量：
+   ```
+   export OPENAI_API_KEY=your_api_key_here
+   ```
 
-### 2. Create a Conda Virtual Environment
+2. 运行主脚本：
+   ```
+   python main.py
+   ```
 
-It's recommended to use a Conda environment for this project. To create and activate a new Conda environment:
+3. 根据提示输入您的问题或查询。
 
-```bash
-conda create -n agent-0 python=3.10
-conda activate agent-0
-```
 
-### 3. Install Dependencies
+## 主要组件
 
-The only dependency required for this project is google-generativeai. Install it using pip:
+1. Agent类（agents/agent.py）：
+   - 实现单个代理的逻辑
+   - 处理与OpenAI API的交互
+   - 管理推理步骤和解决方案生成
 
-```bash
-pip install google-generativeai
-```
+2. AgentFactory类（agents/agent_factory.py）：
+   - 创建和配置代理实例
+   - 定义每个代理的角色和提示
 
-### 4. Run the Script
+3. 主脚本（main.py）：
+   - 协调整个系统的流程
+   - 管理用户输入和结果输出
 
-```bash
-python main.py
-```
+4. 辅助功能：
+   - result_formatter.py：格式化最终输出
+   - user_input_handler.py：处理用户输入
 
-Give it a try and let us know what you think! Make sure to give it a star if you enjoyed it.
+## 工作流程
+
+1. 用户输入问题或查询。
+2. Agent1分析问题并提供初始解决方案。
+3. Agent2审查并改进Agent1的解决方案。
+4. Agent3进一步优化和扩展解决方案。
+5. Agent4进行最终审查，并提供综合解决方案。
+6. 系统输出格式化的最终结果。
+
+## 自定义和扩展
+
+您可以通过修改agents/agent_factory.py文件中的代理提示来自定义每个代理的行为和专长。此外，您还可以添加新的代理或修改现有的工作流程以适应特定需求。
+
+## 注意事项
+
+- 这是一个早期版本，可能在某些情况下会失败。
+- 该系统最适合可以通过编码解决的问题。
+- 请确保您有足够的OpenAI API配额，因为该系统可能会进行多次API调用。
+- 代理的性能很大程度上取决于所使用的OpenAI模型。GPT-4通常会产生最佳结果。
+
+## 故障排除
+
+如果遇到问题：
+1. 确保您的OpenAI API密钥有效且正确设置。
+2. 检查网络连接，确保可以访问OpenAI API。
+3. 查看控制台输出以获取详细的错误信息。
+
