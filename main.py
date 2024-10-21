@@ -2,13 +2,13 @@
 
 import logging
 import os
-import time
-
+import time  
 from agents.agent_factory import AgentFactory
 from utils.user_input_handler import get_user_input
 from utils.result_formatter import format_results
+import openai
 
-import google.generativeai as genai
+os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:7890'
 
 # Ensure logs directory exists
 logs_dir = os.path.join(os.path.dirname(__file__), 'logs')
@@ -25,7 +25,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configure the Gemini API
-genai.configure(api_key=os.environ.get("API_KEY"))
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def main():
     # Step 1: User Input Handler
